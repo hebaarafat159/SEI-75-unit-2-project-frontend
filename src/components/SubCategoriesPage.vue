@@ -1,32 +1,53 @@
 <template>
-    <h1>All Sub Categories</h1>
-    <CategoryListComponent categorieList="{{this.categories}}"/>
+        <div v-if="isProducts">
+            <h1>All Products</h1>
+            <ProductListComponent :productsList="products"></ProductListComponent>
+        </div>
+        <div v-else>
+            <h1>All SubCategory</h1>
+            <CategoryListComponent :list="categories"></CategoryListComponent>
+            <!-- <h2><router-link :to="`/categories/${category._id}/content`" >  {{ category.name }} </router-link></h2> -->
+        </div>    
 </template>
 
 <script>
     import CategoryListComponent from '../components/CategoryListComponent.vue' 
+    import ProductListComponent from './ProductListComponent.vue'
     const API_URL = 'http://localhost:4000'
     import { useRoute } from 'vue-router'
     export default {
         name: 'AllCategoriesView',
         data: () => ({
             error: '',
-            categories: []
+            categories: [],
+            products:[],
+            isProducts: false
         }),
 
         mounted() {
             
-            fetch(`${API_URL}/categories/${useRoute().params.id}/subcategories`)
+            fetch(`${API_URL}/categories/${useRoute().params.id}/content`)
            .then(response => response.json())
            .then(result => {
-            console.log(`Category Sub = ${JSON.stringify(result)}`)
-                console.log(`All Categories: ${JSON.stringify(result.body)}`);
-                this.categories = result.body;
+            console.log(`COntent Result :::::  = ${JSON.stringify(result)}`)
+                console.log(`Content Body: ${JSON.stringify(result.body)}`);
+                console.log(`Content Message: ${JSON.stringify(result.message)}`);
+                 
+                if(result.message === "products")
+                {
+                    this.isProducts = true;
+                    this.products = result.body;
+                }else
+                {
+                    this.isProducts = false;
+                    this.categories = result.body;
+                }
            })
         },
         methods: {},
         components: {
-            CategoryListComponent
+            CategoryListComponent,
+            ProductListComponent
         }
     }
 </script>

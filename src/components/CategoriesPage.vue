@@ -1,7 +1,6 @@
 <template>
     <h1>All Categories</h1>
     <CategoryListComponent :list="categories"></CategoryListComponent>
-    <!-- <CategoryListComponent v-for="name in categories" :list="categories" :key="name._id"></CategoryListComponent> -->
 </template>
 
 <script>

@@ -12,12 +12,12 @@ const routes = [
     },
     {
         name: 'All Sub Categories',
-        path: '/categories/:id/subcategories',
+        path: '/categories/:id/content',
         component: SubCategoriesPage
     },
     {
         name: 'Products',
-        path: '/categories/:id/products',
+        path: '/categories/:id/content',
         component: ProductsPage
     },
     {
