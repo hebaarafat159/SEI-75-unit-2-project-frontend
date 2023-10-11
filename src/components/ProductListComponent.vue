@@ -2,13 +2,14 @@
     <div class="listView">
         <div class="card" v-for="product in productsList" :key="product._id">
             <div><img src="../assets/cart_icon.png" alt="" id="proImage"></div>
-            <div class="addProduct">
+            <div class="productContent">
                 <h2> {{ product.name }} </h2>
                 <div v-if="isAdded">
                    <AddProductComponent :product="product"></AddProductComponent> 
                 </div>
                 <div v-else>
-                    <p><button v-on:click="addProductToList" id="addproduct"> + </button></p>
+                    <button class="btn btn-info" v-on:click="addProductToList" id="addIcon"> Add </button>
+                    <!-- <img src="../assets/add_icon.png" alt="" v-on:click="addProductToList" id="addIcon"> -->
                 </div>
             </div>
         </div>
@@ -42,12 +43,5 @@
          }
     }
  </script>
-
-<style>
-  #proImage{
-        height: 20vh;
-        width: 20vw;
-    }
-</style>
  
  

@@ -4,6 +4,7 @@ import router from './router'
 import vue3GoogleLogin from 'vue3-google-login'
 import Vue3Cookies  from "vue3-cookies";
 import 'bootstrap/dist/css/bootstrap.min.css'
+// import BootstrapVue from 'bootstrap-vue';
 import './assets/css/appStyle.css'
 
 const app = createApp(App)
@@ -19,5 +20,7 @@ app.use(Vue3Cookies,{
   secure: true,
   sameSite: "None",
 })
+
+// app.use(BootstrapVue)
 
 app.mount('#app')
