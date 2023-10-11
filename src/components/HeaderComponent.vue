@@ -29,13 +29,20 @@ export default {
         isInit: false,
         isLoggedIn: false,
         userObject:{},
-        currentListId:''
+        currentListId:'',
+        userShoppingLists:[]
     }),
     mounted(){
         if(this.$cookies.isKey('user_session')){
             this.isLoggedIn = true
             const userData = decodeCredential(this.$cookies.get('user_session'))
             this.userObject = userData; 
+            if(userData!== null){
+                console.log(`${userData.email} is logged in ..... `);
+
+            }else{
+                console.log(`please login ..... `);
+            }
         }
     },
     methods:{
@@ -63,6 +70,7 @@ export default {
                   if(res.status === 200){
                     console.log('Saved Successfully');
                     // this.$router.push({name: 'All Categories'});
+                    this.getUsersList()
                   }
               }).catch (error => {
                 console.log(error);
@@ -75,9 +83,17 @@ export default {
         },
         openCartPage: function(){
             // TODO remove this line
-            this.currentListId = '6523ec21549acd91ef6ac71a';
-            
+            this.currentListId = '6523ec21549acd91ef6ac71a'; 
             this.$router.replace({path: `/shoppingLists/${this.currentListId}/listItems`});
+        },
+        getUsersList: function(){
+            this.userObject.emial = 'heba.arafat159@gmail.com'
+            fetch(`http://localhost:4000/shoppingLists/${this.userObject.emial}`)
+            .then(response => response.json())
+            .then(result => {
+                    console.log(`User Lists: ${JSON.stringify(result.body)}`);
+                    this.userShoppingLists = result.body;
+            })
         }
     }
    }
