@@ -25,31 +25,6 @@ const routes = [
         path: '/login',
         component: LoginForm
     }
-    // {
-    //     name: 'A Book',
-    //     path: '/books/:id',
-    //     component: SingleBookView
-    // },
-    // {
-    //     name: 'Add Or Edit Book',
-    //     path: '/books/addOrUpdate/:id',
-    //     component: AddOrUpdateBookView
-    // },
-    // {
-    //     name: 'All Authors',
-    //     path: '/authors',
-    //     component: AllAuthorsView
-    // },
-    // {
-    //     name: 'An Author',
-    //     path: '/authors/:id',
-    //     component: SingleAuthorView
-    // },
-    // {
-    //     name: 'LoginForm',
-    //     path: '/login',
-    //     component: LoginForm
-    // }
 ]
 
 const router = createRouter({

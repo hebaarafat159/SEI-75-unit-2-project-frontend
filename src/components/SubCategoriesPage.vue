@@ -6,7 +6,6 @@
         <div v-else>
             <h1>All SubCategory</h1>
             <CategoryListComponent :list="categories"></CategoryListComponent>
-            <!-- <h2><router-link :to="`/categories/${category._id}/content`" >  {{ category.name }} </router-link></h2> -->
         </div>    
 </template>
 
@@ -51,29 +50,3 @@
         }
     }
 </script>
-
-<style>
-.listView{
-   /* display: flex;
-   justify-content: center;
-   flex-wrap: wrap; */
-   display: flex;
-   flex-direction: column;
-   gap: 2px;
-}
-
-.card{
-   border: 1px solid green;
-   border-radius: 4px;
-   display: flex;
-   flex-direction: column;
-   gap: 2px;
-   padding: 10px;
-}
-
-.row{
-   background-color: transparent;
-   display: flex;
-   gap: 2px;
-}
-</style>
