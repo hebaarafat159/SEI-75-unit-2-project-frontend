@@ -5,7 +5,7 @@
         </div>
         <div class="cart" id="cart_id" @click="openCartPage">
             <div><img src="../assets/cart_icon.png" alt="" id="cartIcon"></div>
-
+            <div > {{selectedCartCount}} </div>
             <div v-if="isLoggedIn">
                 <select name="list" id="list" v-model="selectedValue">
                     <option :value="null" disabled> Select a category</option>
@@ -41,7 +41,8 @@ export default {
         userObject:null,
         currentList:null,
         userShoppingLists:[],
-        selectedValue: ''
+        selectedValue: '',
+        selectedCartCount: 0
     }),
     mounted(){
         if(this.$cookies.isKey('user_session')){
@@ -103,9 +104,21 @@ export default {
                     this.userShoppingLists.forEach(element => {
                         if(element.isSelected)
                             this.currentList = element;
-                            this.selectedValue = this.currentList.name;
                     });
+                    this.selectedValue = this.currentList.name;
+                    this.getCurrentListCount();
             })
+        },
+        getCurrentListCount: function(){
+            if(this.currentList !== null)
+            {
+                fetch(`http://localhost:4000/shoppingLists/${this.currentList._id}/count`)
+                .then(response => response.json())
+                .then(result => {
+                        console.log(`User Lists: ${JSON.stringify(result.body)}`);
+                        this.selectedCartCount = result.body;
+                })
+            }
         }
     }
    }
