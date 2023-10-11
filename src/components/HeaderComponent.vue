@@ -3,7 +3,7 @@
         <div>
             <img src="../assets/halty_logo.png" alt="" id="logo" v-on:click="loadHomePage">
         </div>
-        <div class="cart" id="cart_id">
+        <div class="cart" id="cart_id" @click="openCartPage">
             <div><img src="../assets/cart_icon.png" alt="" id="cartIcon"></div>
             <div id="cartName">cart</div> 
         </div>
@@ -28,7 +28,8 @@ export default {
     data: () => ({
         isInit: false,
         isLoggedIn: false,
-        userObject:{}
+        userObject:{},
+        currentListId:''
     }),
     mounted(){
         if(this.$cookies.isKey('user_session')){
@@ -71,6 +72,12 @@ export default {
             googleLogout()
             this.$cookies.remove('user_session')
             this.isLoggedIn = false
+        },
+        openCartPage: function(){
+            // TODO remove this line
+            this.currentListId = '6523ec21549acd91ef6ac71a';
+            
+            this.$router.replace({path: `/shoppingLists/${this.currentListId}/listItems`});
         }
     }
    }

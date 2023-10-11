@@ -22,13 +22,25 @@
         data:() => ({
             quantityText:'',
             productItemList:{
-                item_id:'6526a122d8e855bdb8a53e97',
+                item_id:'6526fc20ab61522c28daef25',
                 product_id: '6521bb2ff39360ef56c544f2',
-                quantity:3,
+                quantity:43,
                 measure_id:'6521bc7cf39360ef56c544f6',
                 lastUpdatedDate: new Date().getTime(),
                 hasBrought:false,
-                list_id:'6523ec21549acd91ef6ac71a'
+                list_id:'6523ec21549acd91ef6ac71a',
+                measure: {
+                    _id:"6521bd32f39360ef56c544fb",
+                    name:"Package"
+                },
+                product: {
+                    _id:"6521b600f39360ef56c544e5",
+                    name:"Tomato",
+                    image:"",
+                    category_id:"6521b262f39360ef56c544e2",
+                    description:"",
+                    measures:["6521ef9ff39360ef56c54501"]
+                }
                 // item_id:'',
                 // product_id: this.product.id,
                 // quantity: this.quantityText,
@@ -46,7 +58,7 @@
          methods:{
             saveProduct: function(){
                 // console.log(`Saving Prduct to list :::::::: ${JSON.stringify(this.productItemList)}`);
-                fetch(`http://localhost:4000/shoppingLists/${this.productItemList.list_id}/listItem/add`,{
+                fetch(`http://localhost:4000/shoppingLists/${this.productItemList.list_id}/listItems/add`,{
                     method: "POST",
                     headers:{
                         "Content-Type" : "application/json"
@@ -71,7 +83,7 @@
             },
             removeProduct: function(){
                 console.log(`Remove Prduct to list :::::::: ${JSON.stringify(this.productItemList)}`);
-                fetch(`http://localhost:4000/shoppingLists/${this.productItemList.list_id}/listItem/delete`,{
+                fetch(`http://localhost:4000/shoppingLists/${this.productItemList.list_id}/listItems/delete`,{
                     method: "DELETE",
                     headers:{
                         "Content-Type" : "application/json"

@@ -3,6 +3,7 @@ import CategoriesPage from '../components/CategoriesPage'
 import SubCategoriesPage from '../components/SubCategoriesPage'
 import ProductsPage from '../components/ProductsPage'
 import LoginForm from '../components/LoginForm'
+import CartPage from '../components/CartPage'
 
 const routes = [
     {
@@ -24,6 +25,12 @@ const routes = [
         name: 'LoginForm',
         path: '/login',
         component: LoginForm
+    },
+    {
+        name: 'CartView',
+        
+        path: '/shoppingLists/:id/listItems',
+        component: CartPage
     }
 ]
 
