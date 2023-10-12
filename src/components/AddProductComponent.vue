@@ -1,14 +1,14 @@
 <template>
     <div class="productAddView" v-bind="product" :key="product._id">
         <div>
-            <!-- <input type="number" name="quantity" v-model="this.quantityText" placeholder="0.0">
-            <b-dropdown id="dropdown-left" text="Left align" variant="primary" class="m-2">
-                <b-dropdown-item href="#">Action</b-dropdown-item>
-                <b-dropdown-item href="#">Another action</b-dropdown-item>
-                <b-dropdown-item href="#">Something else here</b-dropdown-item>
-            </b-dropdown> -->
+            <p><input type="text" name="quantity" v-model="productItemList.quantity" placeholder="0.0"></p> 
+            <select name="list" id="list" v-model="selectedValue">    
+                <option :value="null" disabled> Select a measure</option>
+                <option v-for="list in productItemList.product.measures" :key="list" :value="list"> 
+                    {{ list }}
+                </option>
+            </select>
         </div>
-        <!-- <p><input type="text" name="measures" v-model="product." placeholder="Book Description"></p> -->
         <div class="buttonsLyout">
             <button class="btn btn-info" v-on:click="saveProduct" id="saveButtonId"> Save</button>
             <button class="btn btn-info"  v-on:click="removeProduct" id="deleteButtonId">Remove</button>
