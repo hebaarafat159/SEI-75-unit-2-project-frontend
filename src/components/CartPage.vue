@@ -4,8 +4,8 @@
         <div class="itemLayout" v-for="item in items" :key="item._id">
             <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
             <div class="quantityLayout">
-                <h2> {{ item.product.name }} </h2>
-                <h4> {{ item.quantity }}  {{ item.measure.name}}</h4> 
+                <h2> {{ item.product_id.name }} </h2>
+                <h4> {{ item.quantity }}  {{ item.measure_id.name}}</h4> 
             </div>
             <ItemViewButtons :product="item" ></ItemViewButtons>
         </div>

@@ -40,7 +40,7 @@ export default {
         userObject:null,
         currentList:null,
         count:0,
-        userShoppingLists:[],
+        userShoppingLists:[]
     }),
     mounted(){
         if(this.$cookies.isKey('user_session')){
@@ -56,7 +56,6 @@ export default {
     },
     methods:{
         loadHomePage: function(){
-            if( this.count > 0)
                 this.$router.replace({name: 'All Categories'});
         },
         callback: function (response) {
