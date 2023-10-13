@@ -41,11 +41,9 @@ export default {
         currentList:null,
         count:0,
         userShoppingLists:[],
-
     }),
     mounted(){
         if(this.$cookies.isKey('user_session')){
-            
             this.userObject = decodeCredential(this.$cookies.get('user_session'))
             if(this.userObject!== null){
                 console.log(`${this.userObject.email} is logged in ..... `);
@@ -88,6 +86,8 @@ export default {
             googleLogout()
             this.$cookies.remove('user_session')
             this.isLoggedIn = false
+            this.count = 0;
+            this.$cookies.remove('current_list_id');
         },
         openCartPage: function(){
             if(this.currentList !== null)
@@ -105,15 +105,15 @@ export default {
                     {
                         this.userShoppingLists.forEach(element => {
                             if(element.isSelected)
+                            {
                                 this.currentList = element;
+                                this.$cookies.set('current_list_id', this.currentList._id);
+                            }
                         });
-                        // this.selectedValue = this.currentList.name;
                         this.count = this.currentList.listItems.length;
                         if(this.count === undefined)
                             this.count = 0;
-                        // console.log(`count: ${this.count}` );
                     }
-                    //this.getCurrentListCount();
             })
         },
         getCurrentListCount: function(){

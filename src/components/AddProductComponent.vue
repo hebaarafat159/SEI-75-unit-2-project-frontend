@@ -17,6 +17,7 @@
  </template>
  
  <script>
+ 
     export default {
         name: 'AddProductComponent',
         data:() => ({
@@ -26,10 +27,7 @@
                 productObj: {},
                 quantity: 0,
                 selectedMeasure: {},
-                status:false,
-                list:{
-                    _id : '6523ec21549acd91ef6ac71a'
-                }, // TODO add list object
+                status:false
             }
         }),
         mounted() {
@@ -42,7 +40,8 @@
         methods:{
             saveProduct: function(){
                 console.log(`Saving Prduct to list :::::::: ${JSON.stringify(this.item)}`);
-                fetch(`http://localhost:4000/shoppingLists/${this.item.list._id}/listItems/add`,{
+                const list_id = this.$cookies.get('current_list_id','')
+                fetch(`http://localhost:4000/shoppingLists/${list_id}/listItems/add`,{
                     method: "POST",
                     headers:{
                         "Content-Type" : "application/json"
@@ -65,7 +64,8 @@
             },
             removeProduct: function(){
                 console.log(`Remove Prduct to list :::::::: ${JSON.stringify(this.item)}`);
-                fetch(`http://localhost:4000/shoppingLists/${this.item.list._id}/listItems/delete`,{
+                const list_id = this.$cookies.get('current_list_id','')
+                fetch(`http://localhost:4000/shoppingLists/${list_id}/listItems/delete`,{
                     method: "DELETE",
                     headers:{
                         "Content-Type" : "application/json"
