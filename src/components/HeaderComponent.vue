@@ -5,9 +5,9 @@
         </div>
         <div class="cart" id="cart_id" @click="openCartPage">
             <div><img src="../assets/cart_icon.png" alt="" id="cartIcon"></div>
-            <div > {{selectedCartCount}} </div>
+            <div > {{count}} </div>
             <div v-if="isLoggedIn">
-                <select name="list" id="list" v-model="selectedValue">
+                <select name="currentList" id="currentList" v-model="currentList" :value="currentList.name">
                     <option :value="null" disabled> Select a category</option>
                     <option v-for="list in userShoppingLists" :key="list.id" 
                     :value="list"> {{ list.name }}</option>
@@ -19,13 +19,12 @@
         </div>
         <div>
             <div v-if="isLoggedIn">
-        <!-- <h2>Hello {{ userName }}</h2> -->
-        <button @click="handleLogOut">Log Out</button>
-    </div>
-    <div v-else>
-        <GoogleLogin :callback="callback" />
-    </div>
-            <!-- <button ><router-link :to="'/login'" >Login</router-link></button> -->
+            <!-- <h2>Hello {{ userName }}</h2> -->
+            <button @click="handleLogOut">Log Out</button>
+            </div>
+            <div v-else>
+                <GoogleLogin :callback="callback" />
+            </div>
         </div>
     </header>
 </template>
@@ -40,17 +39,18 @@ export default {
         isLoggedIn: false,
         userObject:null,
         currentList:null,
+        count:0,
         userShoppingLists:[],
-        selectedValue: '',
-        selectedCartCount: 0
+
     }),
     mounted(){
         if(this.$cookies.isKey('user_session')){
-            this.isLoggedIn = true
+            
             this.userObject = decodeCredential(this.$cookies.get('user_session'))
             if(this.userObject!== null){
                 console.log(`${this.userObject.email} is logged in ..... `);
-
+                this.isLoggedIn = true
+                this.getUsersList();
             }else{
                 console.log(`please login ..... `);
             }
@@ -58,7 +58,8 @@ export default {
     },
     methods:{
         loadHomePage: function(){
-            this.$router.replace({name: 'All Categories'});
+            if( this.count > 0)
+                this.$router.replace({name: 'All Categories'});
         },
         callback: function (response) {
             this.isLoggedIn = true
@@ -70,7 +71,7 @@ export default {
                   headers:{
                       "Content-Type" : "application/json"
                   },
-                  body: JSON.stringify(this.userObject)
+                  body: JSON.stringify({email: this.userObject.email, name: this.userObject.name})
               })
               .then(res => 
               {
@@ -95,18 +96,24 @@ export default {
             }
         },
         getUsersList: function(){
-            this.userObject.emial = 'heba.arafat159@gmail.com'
-            fetch(`http://localhost:4000/shoppingLists/${this.userObject.emial}`)
+            fetch(`http://localhost:4000/shoppingLists/${this.userObject.email}`)
             .then(response => response.json())
             .then(result => {
                     console.log(`User Lists: ${JSON.stringify(result.body)}`);
                     this.userShoppingLists = result.body;
-                    this.userShoppingLists.forEach(element => {
-                        if(element.isSelected)
-                            this.currentList = element;
-                    });
-                    this.selectedValue = this.currentList.name;
-                    this.getCurrentListCount();
+                    if( this.userShoppingLists!== null && this.userShoppingLists.length > 0)
+                    {
+                        this.userShoppingLists.forEach(element => {
+                            if(element.isSelected)
+                                this.currentList = element;
+                        });
+                        // this.selectedValue = this.currentList.name;
+                        this.count = this.currentList.listItems.length;
+                        if(this.count === undefined)
+                            this.count = 0;
+                        // console.log(`count: ${this.count}` );
+                    }
+                    //this.getCurrentListCount();
             })
         },
         getCurrentListCount: function(){
