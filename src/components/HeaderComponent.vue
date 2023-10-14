@@ -56,7 +56,7 @@ export default {
     },
     methods:{
         loadHomePage: function(){
-                this.$router.replace({name: 'All Categories'});
+            this.$router.replace({name: 'All Categories'});
         },
         callback: function (response) {
             this.isLoggedIn = true
@@ -91,6 +91,7 @@ export default {
         openCartPage: function(){
             if(this.currentList !== null)
             {
+                this.$cookies.set('current_list_id',this.currentList._id);
                 this.$router.replace({path: `/shoppingLists/${this.currentList._id}/listItems`});
             }
         },
