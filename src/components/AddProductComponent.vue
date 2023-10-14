@@ -31,8 +31,31 @@
             }
         }),
         mounted() {
-            this.item.productObj = this.product;
-            this.selectedMeasure = this.item.productObj.measures[0];
+            // TODO request item object from database
+            const list_id = this.$cookies.get('current_list_id','')
+            fetch(`http://localhost:4000/shoppingLists/${list_id}/listItems/${this.product._id}`)
+                .then(response => response.json())
+                .then(result => {
+                    if(result.status === 200){
+                        console.log(`List Item : ${JSON.stringify(result.body)}` );
+                        // console.log(`New Item ID : ${JSON.stringify(result.body.)}`);
+                        if(result.body !== null)
+                        {
+                            this.item._id = result.body._id;
+                            this.item.productObj = this.product;
+                            this.item.quantity = result.body.quantity;
+                            this.selectedMeasure = result.body.measure_id;
+                            this.status = result.body.hasBrought;
+                        }else{
+                            this.item.productObj = this.product;
+                            this.selectedMeasure = this.item.productObj.measures[0];
+                        }
+                    }
+                })  
+                .catch (error => {
+                    console.log(error);
+                })
+            
         },
         props : {
              product: Object,
