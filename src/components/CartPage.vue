@@ -6,25 +6,24 @@
             <button class="btn btn-info" v-on:click="shareList" id="shareButtonId"> Share </button>
             <div v-if="isShareMode">
                 <div v-if="list?.name === 'MyCart'">
-                    <input type="text" name="listName" v-model="sharedListName" placeholder="Share List Name">
+                    <input class="cardListItemDetails" type="text" name="listName" v-model="sharedListName" placeholder="Share List Name">
                 </div>
-                <input type="text" name="sharedEmail" v-model="sharedEmail" placeholder="Share With Email">
+                <input  class="cardListItemDetails" type="text" name="sharedEmail" v-model="sharedEmail" placeholder="Share With Email">
                 <button class="btn btn-info" v-on:click="sendShareList" id="sendShareButtonId"> Send </button> 
             </div>
         </div>
         <button class="btn btn-info"  v-on:click="editList" id="editButtonId">Edit</button>
     </div>
-    <div class="listView">
-        <div class="itemLayout" v-for="item in items" :key="item._id">
+   
+    <div class="cardListItem" v-for="item in items" :key="item._id">
             <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
             <div class="quantityLayout">
-                <h2> {{ item.product_id.name }} </h2>
-                <h4> {{ item.quantity }}  {{ item.measure_id.name}}</h4> 
+                <div class="cardListItemName"> {{ item.product_id.name }} </div>
+                <div class="cardListItemDetails"> {{ item.quantity }}  {{ item.measure_id.name}}</div> 
             </div>
-            <div v-if="isEditMode">
+            <div v-if="isEditMode" id="cartItemButtonsLayout">
                 <ItemViewButtons :product="item" ></ItemViewButtons>
             </div>
-        </div>
     </div>
  </template>
  

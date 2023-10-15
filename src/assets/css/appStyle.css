@@ -98,7 +98,7 @@
 .btn{
     color: white;
     font-weight: bold;
-    font-size: large;
+    font-size: medium;
     background-color: #2596be;
     margin: 2vh;
 }
@@ -107,9 +107,7 @@
 .itemLayout{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: flex-start;
     margin: 5vh;
 }
 
@@ -152,4 +150,45 @@
     font-size: 3vh;
     align-items: center;
     width: 10vw;
+}
+
+.cardListItem{
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: bold;
+    font-size: large;
+    padding: 2vh;
+    margin: 3vh;
+    height: 15vh;
+ }
+
+ .cardListItemName{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: darkblue;
+    font-size: large;
+    font-weight: bold;
+ }
+ .cardListItemDetails{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: darkblue;
+    font-size: medium;
+    margin: 1vh auto;
+ }
+
+.cardListItem > div{
+    padding: 0 5vh;
+}
+
+/* .cardListItem > div:last-child { */
+#cartItemButtonsLayout{
+    margin-left: auto;
+    padding: 0;
 }

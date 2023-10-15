@@ -100,7 +100,7 @@ export default {
             this.isLoggedIn = false
             this.count = 0;
             this.removeListDataCookies();
-            // this.$cookies.remove('current_list_id');
+            this.loadHomePage();
         },
         openCartPage: function(){
             if(this.currentList !== null && this.count > 0)
