@@ -1,8 +1,8 @@
 <template>
     <div class="productAddView" v-bind="item.productObj" :key="product._id">
         <div>
-            <p><input type="text" name="quantity" v-model="item.quantity" placeholder="0.0"></p> 
-            <select name="item.selectedMeasure" id="item.selectedMeasure" v-model="item.selectedMeasure">    
+            <input class="inputTextStyle" type="text" name="quantity" v-model="item.quantity" placeholder="0.0">
+            <select class="inputTextStyle" name="item.selectedMeasure" id="item.selectedMeasure" v-model="item.selectedMeasure">    
                 <option :value="null" disabled> Select a measure</option>
                 <option v-for="measure in item.productObj.measures" :key="measure._id" :value="measure" > 
                     {{ measure.name }}

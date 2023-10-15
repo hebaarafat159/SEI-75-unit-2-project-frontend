@@ -5,9 +5,9 @@
         </div>
         <div class="cart" id="cart_id">
             <div><img src="../assets/cart_icon.png" alt="" id="cartIcon"  @click="openCartPage"></div>
-            <div > {{count}} </div>
+            <div> {{count}} </div>
             <div v-if="isLoggedIn">
-                <select name="currentList" id="currentList" v-model="currentList" :value="currentList?.name" @change="onCartChange">
+                <select  class="form-select form-select-sm mb-3" name="currentList" id="currentList" v-model="currentList" :value="currentList?.name" @change="onCartChange">
                     <option :value="null" disabled> Select a category</option>
                     <option v-for="list in userShoppingLists" :key="list.id" 
                     :value="list"> {{ list.name }}</option>
@@ -19,10 +19,10 @@
         </div>
         <div>
             <div v-if="isLoggedIn">
-            <button @click="handleLogOut">Log Out</button>
+            <button class="btn" @click="handleLogOut">Log Out</button>
             </div>
             <div v-else>
-                <GoogleLogin :callback="callback" />
+                <GoogleLogin class="btn" :callback="callback" />
             </div>
         </div>
     </header>

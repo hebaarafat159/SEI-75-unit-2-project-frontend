@@ -1,9 +1,9 @@
 <template>
     <div class="listView">
         <div class="card" v-for="product in productsList" :key="product._id">
-            <div><img src="../assets/cart_icon.png" alt="" id="proImage"></div>
+            <div><img v-bind:src="product.image" alt="" id="proImage"></div>
             <div class="productContent">
-                <h2> {{ product.name }} </h2>
+                <div class="nameStyle"> {{ product.name }} </div>
                 <div v-if="selectedId === product._id">
                    <AddProductComponent :product="product"></AddProductComponent> 
                 </div>
@@ -33,12 +33,6 @@
             addProductToList: function(event){
                 console.log(`Adding Prduct to list ::: ${event.target.value}`);
                 this.selectedId = event.target.value;
-                // if(event.target.value === )
-                // // TODO hide add button
-                // this.isAdded = true;
-                // // TODO show adding component view
-                // TODO get data from component 
-                // TODO send put request tp backend
             }
          },
          components:{

@@ -1,4 +1,5 @@
 <template>
+        <button class="btn btn-info" v-on:click="back" id="backButtonId"> back </button>
         <div v-if="isProducts">
             <h1>All Products</h1>
             <ProductListComponent :productsList="products"></ProductListComponent>
@@ -43,7 +44,11 @@
                 }
            })
         },
-        methods: {},
+        methods: {
+            back: function(){
+                this.$router.replace({name: 'All Categories'});
+            },
+        },
         components: {
             CategoryListComponent,
             ProductListComponent
