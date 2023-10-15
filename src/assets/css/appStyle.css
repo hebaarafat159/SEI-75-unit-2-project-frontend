@@ -188,7 +188,7 @@
 }
 
 /* .cardListItem > div:last-child { */
-#cartItemButtonsLayout{
+#cartItemButtonsLayout #editButtonId{
     margin-left: auto;
     padding: 0;
 }

@@ -2,7 +2,7 @@
     <div class="productAddView" v-bind="item.productObj" :key="product._id">
         <div>
             <input class="inputTextStyle" type="text" name="quantity" v-model="item.quantity" placeholder="0.0">
-            <select class="inputTextStyle" name="item.selectedMeasure" id="item.selectedMeasure" v-model="item.selectedMeasure">    
+            <select class="inputTextStyle" name="item.measure_id" id="item.measure_id" v-model="item.measure_id">    
                 <option :value="null" disabled> Select a measure</option>
                 <option v-for="measure in item.productObj.measures" :key="measure._id" :value="measure" > 
                     {{ measure.name }}
@@ -26,7 +26,7 @@
                 _id:'-1',
                 productObj: {},
                 quantity: 0,
-                selectedMeasure: {},
+                measure_id: {},
                 status:false
             }
         }),
@@ -44,11 +44,11 @@
                             this.item._id = result.body._id;
                             this.item.productObj = this.product;
                             this.item.quantity = result.body.quantity;
-                            this.selectedMeasure = result.body.measure_id;
+                            this.measure_id = result.body.measure_id;
                             this.status = result.body.hasBrought;
                         }else{
                             this.item.productObj = this.product;
-                            this.selectedMeasure = this.item.productObj.measures[0];
+                            this.measure_id = this.item.productObj.measures[0];
                         }
                     }
                 })  

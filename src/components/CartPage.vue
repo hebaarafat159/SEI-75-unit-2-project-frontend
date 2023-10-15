@@ -1,5 +1,6 @@
 <template>
     <h1>Cart Page</h1>
+    <!-- Header View -->
     <div class="cartPageHeader">
         <button class="btn btn-info" v-on:click="back" id="backButtonId"> back </button>
         <div>
@@ -12,18 +13,27 @@
                 <button class="btn btn-info" v-on:click="sendShareList" id="sendShareButtonId"> Send </button> 
             </div>
         </div>
-        <button class="btn btn-info"  v-on:click="editList" id="editButtonId">Edit</button>
+        <!-- <button class="btn btn-info"  v-on:click="editList" id="editButtonId">Edit</button> -->
     </div>
-   
+    <!-- List Items view -->
     <div class="cardListItem" v-for="item in items" :key="item._id">
-            <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
-            <div class="quantityLayout">
-                <div class="cardListItemName"> {{ item.product_id.name }} </div>
-                <div class="cardListItemDetails"> {{ item.quantity }}  {{ item.measure_id.name}}</div> 
-            </div>
-            <div v-if="isEditMode" id="cartItemButtonsLayout">
-                <ItemViewButtons :product="item" ></ItemViewButtons>
-            </div>
+        
+        <!-- check box view -->
+        <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
+       
+        <!-- item details view -->    
+        <div class="quantityLayout">
+            <div class="cardListItemName"> {{ item.product_id.name }} </div>
+            <div class="cardListItemDetails"> {{ item.quantity }}  {{ item.measure_id.name}}</div> 
+        </div>
+       
+        <!-- edit view -->
+        <div v-if="selectedViewId === item._id">
+            <ItemViewButtons :product="item" :quantity="item.quantity"></ItemViewButtons> 
+        </div>
+        <div v-else>
+            <button class="btn btn-info"  v-on:click="editList" id="editButtonId" :value="item._id"> Edit </button>
+        </div>
     </div>
  </template>
  
@@ -46,7 +56,9 @@ export default {
         sharedEmail:null,
         sharedListName:null,
         isEditMode: false,
-        isShareMode: false
+        isShareMode: false,
+        selectedViewId:null,
+        selectedViewQuantity:0
     }),
     mounted() {
         this.list.id = this.$cookies.get('current_list_id');
@@ -77,7 +89,7 @@ export default {
             if(this.list.name === 'MyCart' && this.sharedListName !== null)
             {
                const userObject = decodeCredential(this.$cookies.get('user_session'))
-                const loggedInUserEmail = userObject.email;
+               const loggedInUserEmail = userObject.email;
                // save a default list 
                await fetch(`http://localhost:4000/shoppingLists/add/${loggedInUserEmail}`,{
                             method: "POST",
@@ -121,11 +133,12 @@ export default {
                     console.log(error);
                 })
         },
-        editList: function(){
-            if(this.isEditMode)
-                this.isEditMode = false;
-            else
-                this.isEditMode = true;
+        editList: function(event){
+            this.selectedViewId = event.target.value;
+            // if(this.isEditMode)
+            //     this.isEditMode = false;
+            // else
+            //     this.isEditMode = true;
         },
         handleCheckBox: function(){
             if(this.isChecked)
