@@ -13,20 +13,20 @@
                 <button class="btn btn-info" v-on:click="sendShareList" id="sendShareButtonId"> Send </button> 
             </div>
         </div>
-        <!-- <button class="btn btn-info"  v-on:click="editList" id="editButtonId">Edit</button> -->
     </div>
     <!-- List Items view -->
     <div class="cardListItem" v-for="item in items" :key="item._id">
         
         <!-- check box view -->
-        <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
-       
+        <div>
+            <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
+        </div>
         <!-- item details view -->    
         <div class="quantityLayout">
             <div class="cardListItemName"> {{ item.product_id.name }} </div>
             <div v-if="selectedViewId === item._id && isEditMode">
-                <input class="inputTextStyle" type="text" name="quantity" v-model="item.quantity" placeholder="0.0">
-                <div class="nameStyle" id="viewData"> {{ item.measure_id.name}}</div> 
+                <input class="cardListItemDetails" type="text" name="quantity" v-model="item.quantity" placeholder="0.0">
+                <div class="cardListItemDetails" id="viewData"> {{ item.measure_id.name}}</div> 
             </div>
             <div v-else>
                 <div class="cardListItemDetails"> {{ item.quantity }}  {{ item.measure_id.name}}</div> 
@@ -34,10 +34,10 @@
         </div>
        
         <!-- edit view -->
-        <div v-if="selectedViewId === item._id">
-            <ItemViewButtons :product="item" :quantity="item.quantity"></ItemViewButtons> 
+        <div v-if="selectedViewId === item._id" id="cartItemButtonsLayout">
+            <ItemViewButtons :product="item" :quantity="item.quantity" ></ItemViewButtons> 
         </div>
-        <div v-else>
+        <div v-else id="editButtonIdView">
             <button class="btn btn-info"  v-on:click="editList" id="editButtonId" :value="item._id"> Edit </button>
         </div>
     </div>
