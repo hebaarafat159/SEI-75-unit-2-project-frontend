@@ -18,7 +18,7 @@
             fetch(`${API_URL}/categories`)
             .then(response => response.json())
             .then(result => {
-                    console.log(`All Categories: ${JSON.stringify(result.body)}`);
+                    // console.log(`All Categories: ${JSON.stringify(result.body)}`);
                     this.categories = result.body;
             })
         },
