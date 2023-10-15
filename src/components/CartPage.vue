@@ -24,7 +24,13 @@
         <!-- item details view -->    
         <div class="quantityLayout">
             <div class="cardListItemName"> {{ item.product_id.name }} </div>
-            <div class="cardListItemDetails"> {{ item.quantity }}  {{ item.measure_id.name}}</div> 
+            <div v-if="selectedViewId === item._id && isEditMode">
+                <input class="inputTextStyle" type="text" name="quantity" v-model="item.quantity" placeholder="0.0">
+                <div class="nameStyle" id="viewData"> {{ item.measure_id.name}}</div> 
+            </div>
+            <div v-else>
+                <div class="cardListItemDetails"> {{ item.quantity }}  {{ item.measure_id.name}}</div> 
+            </div>
         </div>
        
         <!-- edit view -->
@@ -135,10 +141,10 @@ export default {
         },
         editList: function(event){
             this.selectedViewId = event.target.value;
-            // if(this.isEditMode)
-            //     this.isEditMode = false;
-            // else
-            //     this.isEditMode = true;
+            if(this.isEditMode)
+                this.isEditMode = false;
+            else
+                this.isEditMode = true;
         },
         handleCheckBox: function(){
             if(this.isChecked)
