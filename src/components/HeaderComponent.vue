@@ -56,6 +56,20 @@ export default {
     methods:{
         loadHomePage: function(){
             this.$router.replace({name: 'All Categories'});
+        }, 
+        setListDataCookies:function(){
+            if(this.currentList !== null)
+            {
+                this.$cookies.set(/*process.env.COOKIES_CURRENT_LIST_ID_KEY*/'current_list_id', this.currentList._id);
+                this.$cookies.set(/*process.env.COOKIES_CURRENT_LIST_NAME_KEY*/'current_list_name', this.currentList.name);
+            }
+        },
+        removeListDataCookies:function(){
+            if(this.currentList !== null)
+            {
+                this.$cookies.remove('current_list_id');//(process.env.COOKIES_CURRENT_LIST_ID_KEY);
+                this.$cookies.remove('current_list_name');//(process.env.COOKIES_CURRENT_LIST_NAME_KEY);
+            }
         },
         callback: function (response) {
             this.isLoggedIn = true
@@ -85,13 +99,14 @@ export default {
             this.$cookies.remove('user_session')
             this.isLoggedIn = false
             this.count = 0;
-            this.$cookies.remove('current_list_id');
+            this.removeListDataCookies();
+            // this.$cookies.remove('current_list_id');
         },
         openCartPage: function(){
-            if(this.currentList !== null)
+            if(this.currentList !== null && this.count > 0)
             {
-                this.$cookies.set('current_list_id',this.currentList._id);
-                this.$router.replace({path: `/shoppingLists/${this.currentList._id}/listItems`});
+                this.setListDataCookies();
+                this.$router.push({path: `/shoppingLists/${this.currentList._id}/listItems`});
             }
         },
         getUsersList: function(){
@@ -107,7 +122,8 @@ export default {
                             {
                                 this.currentList = element;
                                 this.currentList.name = element.name;
-                                this.$cookies.set('current_list_id', this.currentList._id);
+                                this.setListDataCookies();
+                                // this.$cookies.set(process.env.COOKIES_CURRENT_LIST_ID_KEY, this.currentList._id);//('current_list_id', this.currentList._id);
                             }
                         });
                         if(this.currentList !== null)
@@ -124,7 +140,7 @@ export default {
                                 "Content-Type" : "application/json"
                             },
             
-                            body: JSON.stringify({listName: 'MyCart'})
+                            body: JSON.stringify({listName: 'MyCart',sharedEmails:[this.userObject.email],items:[]})
                         })
                         .then(response => response.json())
                         .then(result => {
@@ -133,7 +149,8 @@ export default {
                                 // console.log(`New Item ID : ${JSON.stringify(result.body._id)}`);
                                 this.currentList = result.body;
                                 this.currentList.name = result.body.name;
-                                this.$cookies.set('current_list_id',result.body._id);
+                                this.setListDataCookies();
+                                // this.$cookies.set('current_list_id',result.body._id);
                                 this.count = 0;
                             }
                         })  
@@ -158,7 +175,8 @@ export default {
             console.log(`Cart Selection changed: ${this.currentList._id} :: ${this.currentList.name}`);
             if(this.currentList !== null)
             {
-                this.$cookies.set('current_list_id',this.currentList._id);
+                // this.$cookies.set('current_list_id',this.currentList._id);
+                this.setListDataCookies();
                 this.count = this.currentList.listItems.length;
             }
         }

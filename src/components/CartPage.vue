@@ -4,12 +4,14 @@
         <button class="btn btn-info" v-on:click="back" id="backButtonId"> back </button>
         <div>
             <button class="btn btn-info" v-on:click="shareList" id="shareButtonId"> Share </button>
-            <input type="text" name="sharedEmail" v-model="sharedEmail" placeholder="Share With Email"> 
+            <div v-if="isShareMode">
+                <div v-if="list?.name === 'MyCart'">
+                    <input type="text" name="listName" v-model="sharedListName" placeholder="Share List Name">
+                </div>
+                <input type="text" name="sharedEmail" v-model="sharedEmail" placeholder="Share With Email">
+                <button class="btn btn-info" v-on:click="sendShareList" id="sendShareButtonId"> Send </button> 
+            </div>
         </div>
-        <!-- <select name="currentList" id="currentList" v-model="currentList" :value="currentList.name">
-            <option :value="null" disabled> Select a category</option>
-            <option v-for="list in userShoppingLists" :key="list.id" :value="list"> {{ list.name }}</option>
-        </select>  -->
         <button class="btn btn-info"  v-on:click="editList" id="editButtonId">Edit</button>
     </div>
     <div class="listView">
@@ -19,7 +21,9 @@
                 <h2> {{ item.product_id.name }} </h2>
                 <h4> {{ item.quantity }}  {{ item.measure_id.name}}</h4> 
             </div>
-            <ItemViewButtons :product="item" ></ItemViewButtons>
+            <div v-if="isEditMode">
+                <ItemViewButtons :product="item" ></ItemViewButtons>
+            </div>
         </div>
     </div>
  </template>
@@ -27,6 +31,8 @@
 <script>
 // import { useRoute } from 'vue-router'
 import ItemViewButtons from '../components/ItemViewButtons.vue'
+import { decodeCredential } from 'vue3-google-login'
+
 export default {
     name: 'CartPage',
     data: () => ({
@@ -34,12 +40,19 @@ export default {
         items: [],
         isChecked: true,
         selectedItem:{},
-        listId : '',
-        sharedEmail:''
+        list : {
+            id:'',
+            name:''
+        },
+        sharedEmail:null,
+        sharedListName:null,
+        isEditMode: false,
+        isShareMode: false
     }),
     mounted() {
-        this.listId = this.$cookies.get('current_list_id','')
-        fetch(`http://localhost:4000/shoppingLists/${this.listId}/listItems`)
+        this.list.id = this.$cookies.get('current_list_id');
+        this.list.name = this.$cookies.get('current_list_name');
+        fetch(`http://localhost:4000/shoppingLists/${this.list.id}/listItems`)
         .then(response => response.json())
         .then(result => {
                 console.log(`List products: ${JSON.stringify(result.body)}`);
@@ -52,10 +65,43 @@ export default {
             this.$router.replace({name: 'All Categories'});
         },
         shareList: function(){
+            const n = this.$cookies.get('current_list_name');
+            console.log(`SHare with : ${this.sharedEmail} , shared list name : ${this.list.name} : ${n}` );
+           
+            if(this.isShareMode)
+                this.isShareMode = false;
+            else
+                this.isShareMode = true;
+        },
+        sendShareList: async function(){ 
             // if(this.listId !== null && this.sharedEmail!==)
-            console.log(`SHare with : ${this.sharedEmail}` );
+            if(this.list.name === 'MyCart' && this.sharedListName !== null)
+            {
+               const userObject = decodeCredential(this.$cookies.get('user_session'))
+                const loggedInUserEmail = userObject.email;
+               // save a default list 
+               await fetch(`http://localhost:4000/shoppingLists/add/${loggedInUserEmail}`,{
+                            method: "POST",
+                            headers:{
+                                "Content-Type" : "application/json"
+                            },
             
-            fetch(`http://localhost:4000/shoppingLists/${this.listId}/share`,{
+                            body: JSON.stringify({listName: this.sharedListName,sharedEmails:[loggedInUserEmail,this.sharedEmail],items:this.items})
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if(result.status === 200){
+                                this.list.id = result.body._id;
+                                this.list.name = result.body.name;
+                                this.$cookies.set('current_list_name',this.list.name);
+                                this.$cookies.set('current_list_id',this.list.id);
+                            }
+                        })  
+                        .catch (error => {
+                            console.log(error);
+                        })
+            }
+            await fetch(`http://localhost:4000/shoppingLists/${this.list.id}/share`,{
                     method: "PUT",
                     headers:{
                         "Content-Type" : "application/json"
@@ -65,12 +111,11 @@ export default {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    // console.log(`Saved Or Update Successfully : ${JSON.stringify(result)}` );
-                    // // console.log(res.status)
-                    if(result.status === 200){
-                        console.log(`User Added Successfully : ${JSON.stringify(result.body)}` );
-                        // console.log(`Upadted Item ID : ${JSON.stringify(result.body._id)}` );
-                        // this.selectedItem.item_id = result.body._id;
+                     if(result.status === 200){
+                        // console.log(`User Added Successfully : ${JSON.stringify(result.body)}` );
+                        this.isShareMode = false;
+                        this.isEditMode = false;
+                        this.$router.replace({name: 'All Categories'});
                     }
                 })  
                 .catch (error => {
@@ -78,10 +123,10 @@ export default {
                 })
         },
         editList: function(){
-
-        },
-        handleSelectedListChanged:function(){
-
+            if(this.isEditMode)
+                this.isEditMode = false;
+            else
+                this.isEditMode = true;
         },
         handleCheckBox: function(){
             if(this.isChecked)
