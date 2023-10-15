@@ -1,6 +1,7 @@
 <template>
     <h1>Cart Page</h1>
     <div class="cartPageHeader">
+        <button class="btn btn-info" v-on:click="back" id="backButtonId"> back </button>
         <div>
             <button class="btn btn-info" v-on:click="shareList" id="shareButtonId"> Share </button>
             <input type="text" name="sharedEmail" v-model="sharedEmail" placeholder="Share With Email"> 
@@ -47,6 +48,9 @@ export default {
         })
     },
     methods: {
+        back: function(){
+            this.$router.replace({name: 'All Categories'});
+        },
         shareList: function(){
             // if(this.listId !== null && this.sharedEmail!==)
             console.log(`SHare with : ${this.sharedEmail}` );
