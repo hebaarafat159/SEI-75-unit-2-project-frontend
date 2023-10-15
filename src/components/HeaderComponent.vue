@@ -101,7 +101,7 @@ export default {
             .then(result => {
                     console.log(`User Lists: ${JSON.stringify(result.body)}`);
                     this.userShoppingLists = result.body;
-                    if( this.userShoppingLists!== null && this.userShoppingLists.length > 0)
+                    if(this.userShoppingLists!== null && this.userShoppingLists.length > 0)
                     {
                         this.userShoppingLists.forEach(element => {
                             if(element.isSelected)
@@ -113,6 +113,29 @@ export default {
                         this.count = this.currentList.listItems.length;
                         if(this.count === undefined)
                             this.count = 0;
+                    }else{
+                        // save a default list 
+                        fetch(`http://localhost:4000/shoppingLists/add/${this.userObject.email}`,{
+                            method: "POST",
+                            headers:{
+                                "Content-Type" : "application/json"
+                            },
+            
+                            body: JSON.stringify({listName: 'MyCart'})
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if(result.status === 200){
+                                console.log(`Saved Or Update Successfully : ${JSON.stringify(result.body)}` );
+                                console.log(`New Item ID : ${JSON.stringify(result.body._id)}`);
+                                this.currentList = result.body;
+                                this.$cookies.set('current_list_id',result.body._id);
+                                this.count = 0;
+                            }
+                        })  
+                        .catch (error => {
+                            console.log(error);
+                        })
                     }
             })
         },
