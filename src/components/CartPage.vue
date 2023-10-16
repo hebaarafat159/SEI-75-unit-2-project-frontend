@@ -19,7 +19,7 @@
         
         <!-- check box view -->
         <div>
-            <input type="checkbox" v-model="model" :value="isChecked" @click="handleCheckBox" />
+            <input type="checkbox" v-model="model" :value="item._id" @click="handleCheckBox" />
         </div>
         <!-- item details view -->    
         <div class="quantityLayout">
@@ -74,7 +74,7 @@ export default {
         .then(result => {
                 console.log(`List products: ${JSON.stringify(result.body)}`);
                 this.items = result.body;
-                this.selectedItem = this.items[0];
+                // this.selectedItem = this.items[0];
         })
     },
     methods: {
@@ -146,42 +146,57 @@ export default {
             else
                 this.isEditMode = true;
         },
-        handleCheckBox: function(){
-            if(this.isChecked)
-                this.isChecked = false;
-            else
-                this.isChecked = true;
+        handleCheckBox: function(event){
+            // console.log(`Check box is chlicked !!!!!! ${JSON.stringify(event.target.value)}`);
+            let selectedProduct = null;
+            for(let i=0; i < this.items.length; i++)
+            {
+                if(this.items[i]._id === event.target.value){
+                    selectedProduct = this.items[i];
+                    break;
+                }
+            } 
+            console.log(`Check box is chlicked before !!!!!! ${selectedProduct.hasBrought}`);
+           
+            if(selectedProduct!==null)
+            {
+                if(selectedProduct.hasBrought)
+                    selectedProduct.hasBrought = false;
+                else
+                    selectedProduct.hasBrought = true;
 
-            this.selectedItem.hasBrought = this.isChecked;
+                // if(this.isChecked)
+                //     this.isChecked = false;
+                // else
+                //     this.isChecked = true;
 
-            console.log(`Check box is chlicked !!!!!! ${this.selectedItem.hasBrought}`);
-            
-            // TODO remove this line
-            this.selectedItem.list_id = '6523ec21549acd91ef6ac71a';
-
-            
-            console.log(`Updaaaaaatinggggg Prduct to list :::::::: ${JSON.stringify(this.selectedItem)}`);
-            fetch(`http://localhost:4000/shoppingLists/${this.selectedItem.list_id}/listItems/updateStatus`,{
-                    method: "PUT",
-                    headers:{
-                        "Content-Type" : "application/json"
-                    },
-      
-                    body: JSON.stringify(this.selectedItem)
-                })
-                .then(response => response.json())
-                .then(result => {
-                    // console.log(`Saved Or Update Successfully : ${JSON.stringify(result)}` );
-                    // // console.log(res.status)
-                    if(result.status === 200){
-                        console.log(`Status Updated Successfully : ${JSON.stringify(result.body)}` );
-                        console.log(`Upadted Item ID : ${JSON.stringify(result.body._id)}` );
-                        this.selectedItem.item_id = result.body._id;
-                    }
-                })  
-                .catch (error => {
-                    console.log(error);
-                })
+                // this.selectedItem.hasBrought = this.isChecked;
+                
+                console.log(`Check box is chlicked after !!!!!! ${selectedProduct.hasBrought}`);
+           
+                // console.log(`Updaaaaaatinggggg Prduct to list :::::::: ${JSON.stringify(selectedProduct)}`);
+                fetch(`http://localhost:4000/shoppingLists/${this.list.id}/listItems/updateStatus`,{
+                        method: "PUT",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+        
+                        body: JSON.stringify(selectedProduct)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        // console.log(`Saved Or Update Successfully : ${JSON.stringify(result)}` );
+                        // // console.log(res.status)
+                        if(result.status === 200){
+                            console.log(`Status Updated Successfully : ${JSON.stringify(result.body)}` );
+                            console.log(`Upadted Item ID : ${JSON.stringify(result.body._id)}` );
+                            // selectedProduct = result.body._id;
+                        }
+                    })  
+                    .catch (error => {
+                        console.log(error);
+                    })
+            }
         }
     },
     components:{
