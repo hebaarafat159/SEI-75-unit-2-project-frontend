@@ -76,7 +76,9 @@ export default {
             this.userObject  = decodeCredential(response.credential)
             // console.log(`Google User: ${JSON.stringify(this.userObject)}`);
             this.$cookies.set('user_session', response.credential);
-            fetch("http://localhost:4000/users/login",{
+            // fetch("http://localhost:4000/users/login",{
+            fetch(`${process.env.VUE_APP_URL_APP_PATH}/users/login`,{
+
                   method: "POST",
                   headers:{
                       "Content-Type" : "application/json"
@@ -110,7 +112,7 @@ export default {
             }
         },
         getUsersList: function(){
-            fetch(`http://localhost:4000/shoppingLists/${this.userObject.email}`)
+            fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${this.userObject.email}`)
             .then(response => response.json())
             .then(result => {
                     // console.log(`User Lists: ${JSON.stringify(result.body)}`);
@@ -134,7 +136,7 @@ export default {
                         }
                     }else{
                         // save a default list 
-                        fetch(`http://localhost:4000/shoppingLists/add/${this.userObject.email}`,{
+                        fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/add/${this.userObject.email}`,{
                             method: "POST",
                             headers:{
                                 "Content-Type" : "application/json"
@@ -163,7 +165,7 @@ export default {
         getCurrentListCount: function(){
             if(this.currentList !== null)
             {
-                fetch(`http://localhost:4000/shoppingLists/${this.currentList._id}/count`)
+                fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${this.currentList._id}/count`)
                 .then(response => response.json())
                 .then(result => {
                         // console.log(`User Lists: ${JSON.stringify(result.body)}`);

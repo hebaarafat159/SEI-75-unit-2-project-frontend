@@ -33,7 +33,7 @@
         mounted() {
             // TODO request item object from database
             const list_id = this.$cookies.get('current_list_id','')
-            fetch(`http://localhost:4000/shoppingLists/${list_id}/listItems/${this.product._id}`)
+            fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${list_id}/listItems/${this.product._id}`)
                 .then(response => response.json())
                 .then(result => {
                     if(result.status === 200){
@@ -64,7 +64,7 @@
             saveProduct: function(){
                 console.log(`Saving Prduct to list :::::::: ${JSON.stringify(this.item)}`);
                 const list_id = this.$cookies.get('current_list_id','')
-                fetch(`http://localhost:4000/shoppingLists/${list_id}/listItems/add`,{
+                fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${list_id}/listItems/add`,{
                     method: "POST",
                     headers:{
                         "Content-Type" : "application/json"
@@ -88,7 +88,7 @@
             removeProduct: function(){
                 console.log(`Remove Prduct to list :::::::: ${JSON.stringify(this.item)}`);
                 const list_id = this.$cookies.get('current_list_id','')
-                fetch(`http://localhost:4000/shoppingLists/${list_id}/listItems/delete`,{
+                fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${list_id}/listItems/delete`,{
                     method: "DELETE",
                     headers:{
                         "Content-Type" : "application/json"

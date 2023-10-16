@@ -35,7 +35,7 @@ export default {
             this.userObject = userData;
             console.log(`Google User: ${JSON.stringify(this.userObject)}`);
             this.$cookies.set('user_session', response.credential);
-            fetch("http://localhost:4000/users/login",{
+            fetch(`${process.env.VUE_APP_URL_APP_PATH}/users/login`,{
                   method: "POST",
                   headers:{
                       "Content-Type" : "application/json"

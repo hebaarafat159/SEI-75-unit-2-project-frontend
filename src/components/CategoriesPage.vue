@@ -5,7 +5,7 @@
 
 <script>
     import CategoryListComponent from '../components/CategoryListComponent.vue' 
-    const API_URL = 'http://localhost:4000'
+    const API_URL =process.env.VUE_APP_URL_APP_PATH// 'http://localhost:4000'
 
     export default {
         name: 'AllCategoriesView',

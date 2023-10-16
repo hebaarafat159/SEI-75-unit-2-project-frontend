@@ -69,7 +69,7 @@ export default {
     mounted() {
         this.list.id = this.$cookies.get('current_list_id');
         this.list.name = this.$cookies.get('current_list_name');
-        fetch(`http://localhost:4000/shoppingLists/${this.list.id}/listItems`)
+        fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${this.list.id}/listItems`)
         .then(response => response.json())
         .then(result => {
                 console.log(`List products: ${JSON.stringify(result.body)}`);
@@ -97,7 +97,7 @@ export default {
                const userObject = decodeCredential(this.$cookies.get('user_session'))
                const loggedInUserEmail = userObject.email;
                // save a default list 
-               await fetch(`http://localhost:4000/shoppingLists/add/${loggedInUserEmail}`,{
+               await fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/add/${loggedInUserEmail}`,{
                             method: "POST",
                             headers:{
                                 "Content-Type" : "application/json"
@@ -118,7 +118,7 @@ export default {
                             console.log(error);
                         })
             }
-            await fetch(`http://localhost:4000/shoppingLists/${this.list.id}/share`,{
+            await fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${this.list.id}/share`,{
                     method: "PUT",
                     headers:{
                         "Content-Type" : "application/json"
@@ -175,7 +175,7 @@ export default {
                 console.log(`Check box is chlicked after !!!!!! ${selectedProduct.hasBrought}`);
            
                 // console.log(`Updaaaaaatinggggg Prduct to list :::::::: ${JSON.stringify(selectedProduct)}`);
-                fetch(`http://localhost:4000/shoppingLists/${this.list.id}/listItems/updateStatus`,{
+                fetch(`${process.env.VUE_APP_URL_APP_PATH}/shoppingLists/${this.list.id}/listItems/updateStatus`,{
                         method: "PUT",
                         headers:{
                             "Content-Type" : "application/json"
