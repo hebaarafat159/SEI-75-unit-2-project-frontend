@@ -1,0 +1,6 @@
+[functions]
+  external_node_modules = ["js-cookies"]
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

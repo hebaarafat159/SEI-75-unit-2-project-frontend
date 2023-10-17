@@ -21,6 +21,4 @@ app.use(Vue3Cookies,{
   sameSite: "None",
 })
 
-// app.use(BootstrapVue)
-
 app.mount('#app')
