@@ -39,7 +39,8 @@ export default {
                         console.log(`New Item ID : ${JSON.stringify(result.body._id)}`);
                         // this.item._id = result.body._id;
                         // this.$router.push({name: 'All Books'});
-                        this.$router.replace({name: 'CartView'});
+                        //this.$router.replace({name: 'CartView'});
+                        this.$router.go();
                     }
                 })  
                 .catch (error => {
@@ -64,7 +65,8 @@ export default {
                     if(result.status === 200){
                         console.log(`deleted Successfully : ${JSON.stringify(result.body)}` );
                         // this.productItemList = res.body;
-                        this.$router.replace({name: 'All Sub Categories'});
+                        // this.$router.replace({name: 'All Sub Categories'});
+                        this.$router.go();
                     }
                 })  
                 .catch (error => {

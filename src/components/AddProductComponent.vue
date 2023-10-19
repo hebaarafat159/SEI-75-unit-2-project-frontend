@@ -78,7 +78,7 @@
                         console.log(`Saved Or Update Successfully : ${JSON.stringify(result.body)}` );
                         console.log(`New Item ID : ${JSON.stringify(result.body._id)}`);
                         this.item._id = result.body._id;
-                        // this.$router.push({name: 'All Books'});
+                        this.$router.go();//push({name: 'All Books'});
                     }
                 })  
                 .catch (error => {
@@ -103,7 +103,8 @@
                     if(result.status === 200){
                         console.log(`deleted Successfully : ${JSON.stringify(result.body)}` );
                         // this.productItemList = res.body;
-                        this.$router.replace({name: 'All Sub Categories'});
+                        // this.$router.replace({name: 'All Sub Categories'});
+                        this.$router.go();
                     }
                 })  
                 .catch (error => {

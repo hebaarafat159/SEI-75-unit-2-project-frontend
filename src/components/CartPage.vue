@@ -132,7 +132,8 @@ export default {
                         // console.log(`User Added Successfully : ${JSON.stringify(result.body)}` );
                         this.isShareMode = false;
                         this.isEditMode = false;
-                        this.$router.replace({name: 'All Categories'});
+                        // this.$router.replace({name: 'All Categories'});
+                        this.$router.go();
                     }
                 })  
                 .catch (error => {
@@ -191,6 +192,7 @@ export default {
                             console.log(`Status Updated Successfully : ${JSON.stringify(result.body)}` );
                             console.log(`Upadted Item ID : ${JSON.stringify(result.body._id)}` );
                             // selectedProduct = result.body._id;
+                            this.$router.go();
                         }
                     })  
                     .catch (error => {
