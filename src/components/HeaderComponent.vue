@@ -154,6 +154,7 @@ export default {
                                 this.setListDataCookies();
                                 // this.$cookies.set('current_list_id',result.body._id);
                                 this.count = 0;
+                                this.$router.go();
                             }
                         })  
                         .catch (error => {
